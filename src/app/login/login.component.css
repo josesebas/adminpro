@@ -1,0 +1,75 @@
+/*
+Template Name: Admin pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+/*
+Template Name: Admin Pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+/*Theme Colors*/
+/*bootstrap Color*/
+/*Light colors*/
+/*Normal Color*/
+/*Extra Variable*/
+/*******************
+Login register and recover password Page
+******************/
+h2{
+    line-height: 45px;
+    font-size: 36px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+}
+.sombra {
+    z-index: 3;
+    background: rgba(0,0,0,.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.titulo-panel{
+    font-size: 45px;
+    color: #ffd110;
+    z-index: 6;
+    top: 15px;
+    padding-left: 24px;
+    position: absolute;
+    padding-bottom: 9px;
+    border-bottom: 3px solid #ffd110;
+    width: 100%;
+}
+.login-register {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100%;
+  width: 100%;
+  padding: 10% 0;
+  position: fixed; }
+
+.login-box {
+  z-index: 9;
+  width: 400px;
+  margin: 0 auto; }
+  .login-box .footer {
+    width: 100%;
+    left: 0px;
+    right: 0px; }
+  .login-box .social {
+    display: block;
+    margin-bottom: 30px; }
+
+#recoverform {
+  display: none; }
+
+.login-sidebar {
+  padding: 0px;
+  margin-top: 0px; }
+  .login-sidebar .login-box {
+    right: 0px;
+    position: absolute;
+    height: 100%; }
