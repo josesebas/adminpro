@@ -1,0 +1,537 @@
+<table class="table table-striped text-center" *ngIf="tab=='x_asignar'">
+	<thead >
+		<tr>
+			<th class="num_contrato">Contrato</th>
+			<th class="cliente">Cliente</th>
+			<th>Celular</th>
+			<th>Origen</th>
+			<th>F.Salida</th>
+			<th>Destino</th>
+			<th>F.Regreso</th>
+			<th class="tipo_viaje">T.Viaje</th>
+			<th>Total</th>
+			<th>Rest</th>
+			<th>Unidad</th>
+			<th>Operador</th>
+			<th>Asignar</th>
+		</tr>
+	</thead>
+	<tbody (mouseover)="activarTooltip()">
+		<tr *ngFor="let data of viajes; index as i;" [ngClass]="{'text-danger':data.cancelado==1}">
+			<td>{{data.num_contrato}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.nombre_cliente|uppercase}}">{{data.nombre_cliente|sliceTooltip:12|uppercase}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.celular_cliente}}">{{data.celular_cliente|sliceTooltip:7}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_salida|uppercase}}">{{data.lugar_salida |uppercase|sliceTooltip:10}}</span>
+			</td>
+			<td>{{data.fecha_salida | date:"yyyy/MM/dd"}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_destino|uppercase}}">{{data.lugar_destino |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td><span  *ngIf="data.fecha_regreso!='0000-00-00'">{{data.fecha_regreso | date:"yyyy/MM/dd"}}</span></td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.tipo_viaje|uppercase}}">{{data.tipo_viaje |sliceTooltip:12 |uppercase}}</span>
+			</td>
+			<td>{{data.total|currency}}</td>
+			<td>{{data.restante|currency}}</td>
+			<td>
+				<ng-select placeholder="{{data.unidad}}" [items]="unidades" bindLabel="num_economico"  [(ngModel)]="unidad_sel[i]" dropdownPosition="bottom" (change)="asignar_u(i)" class="unidad">
+				</ng-select>			
+			</td>
+			<td>
+				<ng-select [items]="operadores" bindLabel="nombre" [(ngModel)]="operador_sel[i]" dropdownPosition="bottom" class="operador">
+				</ng-select>
+			</td>
+			<td><button class="btn btn-sm btn-sm btn-info " (click)="asignar_viaje(i)">Asignar</button></td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table table-striped text-center" *ngIf="tab=='proximos'" >
+	<thead (mouseover)="activarTooltip()">
+		<tr>
+			<th class="num_contrato">Contrato</th>
+			<th class="cliente">Cliente</th>
+			<th>Celular</th>
+			<th>Origen</th>
+			<th>F.Salida</th>
+			<th>Destino</th>
+			<th>F.Regreso</th>
+			<th class="tipo_viaje">T.Viaje</th>
+			<th>Total</th>
+			<th>Restante</th>
+			<th>Unidad</th>
+			<th>Operador</th>
+			<th>Acción</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let data of viajes; let i = index;" [ngClass]="{'text-danger':data.cancelado==1, 'texto-dividido-principal':data.dividido>0 && data.num_contrato.split('-').length==4, 'texto-dividido':data.dividido>0 && data.num_contrato.split('-').length>4 }">
+			<td>{{data.num_contrato}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.nombre_cliente|uppercase}}">{{data.nombre_cliente|sliceTooltip:10|uppercase}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.celular_cliente}}">{{data.celular_cliente |sliceTooltip:6}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_salida|uppercase}}">{{data.lugar_salida |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td>{{data.fecha_salida| date:"yyyy/MM/dd"}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_destino|uppercase}}">{{data.lugar_destino |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td>
+				<span  *ngIf="data.fecha_regreso!='0000-00-00'">{{data.fecha_regreso| date:"yyyy/MM/dd"}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.tipo_viaje|uppercase}}">{{data.tipo_viaje |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td>{{data.total|currency}}</td>
+			<td>{{data.restante|currency}}</td>
+			<td>
+				<ng-select [(ngModel)]="unidad_sel[i]" placeholder="{{data.num_economico}}" dropdownPosition="bottom" (change)="asignar_u(i)" [items]="unidades" bindLabel="num_economico" class="unidad">
+				</ng-select>
+			</td>
+			<td>
+				<ng-select  [items]="operadores" bindLabel="nombre" class="operador" [(ngModel)]="operador_sel[i]" dropdownPosition="bottom" >
+				</ng-select>
+			</td>
+			<td>
+				<div class="btn-group">
+					<button class="btn btn-sm btn-warning" (click)="reasignar_viaje(i)">
+						<i class="fas fa-exchange-alt"></i>
+					</button>
+					<button class="btn btn-sm btn-primary" *ngIf="data.dividido==null" (click)="abrirModal(content, i,1)"><i  class="fas fa-project-diagram"></i></button>
+					<button class="btn btn-sm btn-primary" *ngIf="data.dividido!=null" (click)="abrirModal(content2, i,2)"><i  class="fas fa-project-diagram"></i></button>
+					
+					<!-- <button class="btn btn-sm btn-primary" (click)="dividir_viaje(i)" [disabled]="data.num_contrato.split('-').length>4 ">
+						<i class="fas fa-project-diagram"></i>
+					</button> -->
+					<button class="btn btn-sm btn-success" (click)="iniciarViaje(i)">
+						<i class="fab fa-whatsapp"></i>
+					</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table table-striped text-center" *ngIf="tab=='en_curso'">
+	<thead class="">
+		<tr>
+			<th class="num_contrato">Contrato</th>
+			<th class="cliente">Cliente</th>
+			<th>Celular</th>
+			<th>Origen</th>
+			<th>F.Salida</th>
+			<th>Destino</th>
+			<th>F.Regreso</th>
+			<th class="tipo_viaje">T.Viaje</th>
+			<th>Total</th>
+			<th>Restante</th>
+			<th>Unidad</th>
+			<th>Operador</th>
+			<th>Acción</th>
+		</tr>
+	</thead>
+	<tbody (mouseover)="activarTooltip()">
+		<tr *ngFor="let data of viajes;let i = index;" [ngClass]="{'text-danger':data.cancelado==1, 'texto-dividido-principal':data.dividido>0 && data.num_contrato.split('-').length==4, 'texto-dividido':data.dividido>0 && data.num_contrato.split('-').length>4 }">
+			<td>{{data.num_contrato}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.nombre_cliente|uppercase}}">{{data.nombre_cliente|sliceTooltip:10|uppercase}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.celular_cliente}}">{{data.celular_cliente |sliceTooltip:6}}</span>
+			</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_salida|uppercase}}">{{data.lugar_salida |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td>{{data.fecha_salida |date:"yyyy/MM/dd"}}</td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.lugar_destino|uppercase}}">{{data.lugar_destino |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td><span  *ngIf="data.fecha_regreso!='0000-00-00'">{{data.fecha_regreso |date:"yyyy/MM/dd"}}</span></td>
+			<td>
+				<span data-toggle="tooltip" data-placement="top" title="{{data.tipo_viaje|uppercase}}">{{data.tipo_viaje |sliceTooltip:10 |uppercase}}</span>
+			</td>
+			<td>{{data.total|currency}}</td>
+			<td>{{data.restante|currency}}</td>
+			<td>
+				<ng-select [(ngModel)]="unidad_sel[i]" placeholder="{{data.num_economico}}" dropdownPosition="bottom" (change)="asignar_u(i)" [items]="unidades" bindLabel="num_economico" class="unidad">
+				</ng-select>
+			</td>
+			<td>
+				<ng-select  [items]="operadores" bindLabel="nombre" class="operador" [(ngModel)]="operador_sel[i]" dropdownPosition="bottom" >
+				</ng-select>
+			</td>
+			<td>
+				<div class="btn-group">
+					<button class="btn btn-sm btn-warning" (click)="reasignar_viaje(i)" >
+						<i class="fas fa-exchange-alt"></i>
+					</button>
+					<button class="btn btn-sm btn-primary" *ngIf="data.dividido==null" (click)="abrirModal(content, i,1)"><i  class="fas fa-project-diagram"></i></button>
+					<button class="btn btn-sm btn-primary" *ngIf="data.dividido!=null" (click)="abrirModal(content2, i,2)"><i  class="fas fa-project-diagram"></i></button>
+					
+					<button class="btn btn-sm btn-success" >
+						<i class="fab fa-whatsapp"></i>
+					</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table" *ngIf="tab=='cerrados'">
+	<thead class="">
+		<tr>
+			<th class="num_contrato">Contrato</th>
+			<th>Cliente</th>
+			<th>Celular</th>
+			<th>Origen</th>
+			<th>F.Salida</th>
+			<th>Destino</th>
+			<th>F.Regreso</th>
+			<th class="tipo_viaje">T.Viaje</th>
+			<th>Total</th>
+			<th>Restante</th>
+			<th>Unidad</th>
+			<th>Operador</th>
+			<th>Acción</th>
+			<th>Ganancia</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let data of viajes" [ngClass]="{'text-danger':data.cancelado==1, 'texto-dividido-principal':data.dividido>0 && data.num_contrato.split('-').length==4, 'texto-dividido':data.dividido>0 && data.num_contrato.split('-').length>4 }">
+			<td>{{data.num_contrato}}</td>
+			<td>{{data.nombre_cliente | uppercase}}</td>
+			<td>{{data.celular_cliente}}</td>
+			<td>{{data.lugar_salida | uppercase}}</td>
+			<td>{{data.fecha_salida}}</td>
+			<td>{{data.lugar_destino | uppercase}}</td>
+			<td><span  *ngIf="data.fecha_regreso!='0000-00-00'">{{data.fecha_regreso}}</span></td>
+			<td>{{data.tipo_viaje | uppercase}}</td>
+			<td>{{data.total}}</td>
+			<td>{{data.restante}}</td>
+			<td>{{data.num_economico}}</td>
+			<td>{{data.nombre_operador | uppercase}} {{data.apellido_operador | uppercase}}</td>
+			<td>accion</td>
+			<td>data</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="table" *ngIf="tab=='completados'">
+	<thead class="">
+		<tr>
+			<th>Contrato</th>
+			<th>Cliente</th>
+			<th>Celular</th>
+			<th>Origen</th>
+			<th>F.Salida</th>
+			<th>Destino</th>
+			<th>F.Regreso</th>
+			<th class="tipo_viaje">T.Viaje</th>
+			<th>Total</th>
+			<th>Restante</th>
+			<th>Unidad</th>
+			<th>Operador</th>
+			<th>Acción</th>
+			<th>Ganancia</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<!--  data-toggle="tooltip" title="{{data.num_contrato}}" para el tooltip -->
+		<tr *ngFor="let data of viajes" [ngClass]="{'text-danger':data.cancelado==1, 'text-success':data.dividido>0}">
+			<td><span>{{data.num_contrato}}</span></td>
+			<td>{{data.nombre_cliente | uppercase}}</td>
+			<td>{{data.celular_cliente}}</td>
+			<td>{{data.lugar_salida | uppercase}}</td>
+			<td>{{data.fecha_salida}}</td>
+			<td>{{data.lugar_destino | uppercase}}</td>
+			<td><span *ngIf="data.fecha_regreso!='0000-00-00'">{{data.fecha_regreso}}</span></td>
+			<td>{{data.tipo_viaje | uppercase}}</td>
+			<td>{{data.total}}</td>
+			<td>{{data.restante}}</td>
+			<td>{{data.num_economico}}</td>
+			<td>{{data.nombre_operador | uppercase}} {{data.apellido_operador | uppercase}}</td>
+			<td>accion</td>
+			<td>data</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<!-- MODAL CUANDO AUN NO EXISTEN DIVISIONES -->
+<ng-template #content let-modal class="">
+  <div class="modal-header">
+    <h4 class="modal-title">Dividir viaje</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="false">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">	
+  	
+  	<div class="row align-content-center justify-content-center">
+
+  		<table class="col-md-11 table ">
+			<thead class="bg-dark text-light text-center">
+				<tr>
+					<td colspan="6">Viaje principal</td>
+				</tr>
+				<tr>
+					<th class="text-center">Num Contrato</th>
+					<th class="fechas text-center">Fechas</th>
+					<th class="unidad text-center">Unidad</th>
+					<th class="operador text-center">Operador</th>
+					<th class="datos_salida text-center">Datos de Origen</th>
+					<th class="datos_salida text-center">Datos de destino</th>
+				</tr>
+			</thead>
+			<tbody class="text-center">
+				
+				<tr>
+					<td><b>{{viajes[dividiendo].num_contrato}}</b></td>
+					<td>
+						<!-- <div *ngIf="tipo_division_sel!='dia'">{{viajes[dividiendo].fecha_salida}} a {{viajes[dividiendo].fecha_regreso}}</div>
+						 --><my-date-range-picker	 name="mydaterange" [options]="myDateRangePickerOptions"
+		    		     	[(ngModel)]="model_principal" ></my-date-range-picker>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="unidad_principal" placeholder="{{viajes[dividiendo].num_economico}}" dropdownPosition="bottom" (change)="asignar_unidad_principal(dividiendo)" [items]="unidades" bindLabel="num_economico" class="unidad">
+							</ng-select>
+						</div>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select  [items]="operadores" bindLabel="nombre" class="operador" [(ngModel)]="operador_principal" dropdownPosition="bottom" >
+							</ng-select>
+						</div>
+					</td>
+					<td>{{viajes[dividiendo].salida_exacta|sliceTooltip:70}}</td>
+					<td>{{viajes[dividiendo].destino_exacto|sliceTooltip:70}}</td>
+				</tr>
+				<tr>
+					<td><b>Tipo de division</b></td>
+					<td colspan="5" >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="tipo_division_sel"  placeholder="Selecciona una opción" dropdownPosition="bottom" [items]="tipos_divisiones" bindLabel="name" bindValue="type" (change)="cambiar_cantidad_divisiones()" class="select_tipo_div"></ng-select>
+						</div>
+					</td>
+				</tr>
+				<tr *ngIf="tipo_division_sel=='dia'&& cantidad_divisiones>0">
+					<td>
+						<b>Num. de divisiones</b>
+					</td>
+					<td colspan="5" >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="cantidad_divisiones" (change)="cambiarDivisiones()" placeholder="Cantidad de divisiones" [items]="cantidad_divisiones_options" bindLabel="division" bindValue="division" class="select_tipo_div"></ng-select>
+						</div>
+					</td>
+				</tr>
+				<tr class="bg-dark text-light"><th colspan="6" class="text-center">Divisiones</th></tr> 	
+				<tr class="bg-dark text-light text-center">
+					<th class="text-center">Num Contrato</th>
+					<th class="options text-center">Fechas</th>
+					<th class="unidad text-center">Unidad</th>
+					<th class="operador text-center">Operador</th>
+					<th class="datos_salida text-center">
+						Datos de origen
+					</th>
+					<th class="datos_regreso text-center">
+						Datos de destino
+					</th>
+				</tr>
+				<tr *ngFor="let div of divisiones; index as i">
+					<td>
+						<div>
+						{{viajes[dividiendo].num_contrato}}-{{consecutivos[i]}}
+						</div>
+					</td>
+					<td  class=" align-content-center justify-content-center">
+						<!-- <div *ngIf="tipo_division_sel!='dia'">{{viajes[dividiendo].fecha_salida}} a {{viajes[dividiendo].fecha_regreso}}</div>
+						 -->
+						 <div >	
+		    				<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+		    		     	[(ngModel)]="model[i]" (dateRangeChanged)="onDateRangeChanged($event, i)" [disabled]="div.division_cancelada==1" ></my-date-range-picker>
+		    			</div>
+		    		</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="unidad_division[i]" placeholder="Selecciona una unidad" dropdownPosition="bottom" (change)="asignar_unidad_division(i)" [items]="unidades" bindLabel="num_economico" class="unidad">
+							</ng-select>
+						</div>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select  [items]="operadores" bindLabel="nombre" placeholder="Selecciona un operador" class="operador" [(ngModel)]="operador_division[i]" dropdownPosition="bottom" >
+							</ng-select>
+						</div>
+					</td>
+					<td>
+						<textarea placeholder="Ingresa datos de salida" class="form-control" name="" [(ngModel)]="divisiones[i].salida_exacta" id="" cols="17" rows="3"></textarea>
+					</td>
+					<td>
+						<textarea placeholder="Ingresa datos de salida" class="form-control" name="" [(ngModel)]="divisiones[i].destino_exacto" id="" cols="17" rows="3"></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+    </div>
+  </div>
+  <div class="modal-footer">
+  	<div class="row" style="width: 100%;">
+  		<div class="col-6">
+  			<div *ngIf="tipo_division_sel&&(viajes[dividiendo].tipo_viaje=='Local 1 a 6 hrs'||viajes[dividiendo].tipo_viaje=='Local 6 hrs o mas')">
+  			Asignar misma salida a todas las divisiones 
+  			<input type="checkbox" name="checkSalida" [(ngModel)]="checkSalida" (change)="cambiarDatosSalida()">
+  			</div>
+  		</div>
+  		<div class="col-6 text-right">
+  			<span class="text-danger" *ngIf="faltan_datos">Faltan datos por capturar *</span>
+    		<button type="button" class="btn btn-sm btn-success" (click)="validaDivisiones()" [disabled]="!tipo_division_sel">Dividir</button>
+    		<button type="button" class="btn btn-sm btn-danger" (click)="modal.close('Close click')">Cerrar</button>
+  		</div>
+  	</div>  			
+  </div>
+</ng-template>
+
+
+
+
+<!-- MODAL CUANDO YA EXISTEN DIVISIONES -->
+<ng-template #content2 let-modal class="">
+  <div class="modal-header">
+    <h4 class="modal-title">Divisiones de viaje</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="false">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+  	
+  	<div class="row align-content-center justify-content-center">
+
+  		<table class="col-md-11 table ">
+			<thead class="bg-dark text-light text-center">
+				<tr>
+					<td colspan="6">Viaje principal</td>
+				</tr>
+				<tr>
+					<th class="text-center">Num Contrato</th>
+					<th class="fechas text-center" >Fechas</th>
+					<th class="unidad text-center">Unidad</th>
+					<th class="operador text-center">Operador</th>
+					<th class="datos_salida text-center">Datos de Origen</th>
+					<th class="datos_salida text-center">Datos de Destino</th>
+				</tr>
+			</thead>
+			<tbody class="text-center">
+				<tr>
+					<td><b>{{viaje_actual.num_contrato}}</b></td>
+					<td>
+						<!-- <div *ngIf="tipo_division_sel!='dia'">{{viajes[dividiendo].fecha_salida}} a {{viajes[dividiendo].fecha_regreso}}</div> -->
+						<my-date-range-picker  name="mydaterange" [options]="myDateRangePickerOptions"
+		    		     	[(ngModel)]="model_principal" ></my-date-range-picker>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="unidad_principal" placeholder="{{viajes[dividiendo].num_economico}}" dropdownPosition="bottom" (change)="asignar_unidad_principal(dividiendo)" [items]="unidades" bindLabel="num_economico" class="unidad">
+							</ng-select>
+						</div>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select  [items]="operadores" bindLabel="nombre" class="operador" [(ngModel)]="operador_principal" dropdownPosition="bottom" >
+							</ng-select>
+						</div>
+					</td>
+					<td>{{viajes[dividiendo].salida_exacta |sliceTooltip:70}}</td>
+					<td>{{viajes[dividiendo].destino_exacto |sliceTooltip:70}}</td>
+				</tr>
+				<tr class="bg-dark text-light"><th colspan="6" class="text-center">Divisiones</th></tr> 	
+				<tr class="bg-dark text-light text-center">
+					<th class="text-center">Num Contrato</th>
+					<th class="options text-center">Fechas</th>
+					<th class="unidad text-center">Unidad</th>
+					<th class="operador text-center">Operador</th>
+					<th class="datos_salida text-center">Datos de origen</th>
+					<th class="datos_salida text-center">Datos de destino</th>
+				</tr>
+				<tr *ngFor="let div of divisiones;let i =  index" [ngClass]="{'cancelado':div.division_cancelada==1||div.eliminar==1}">
+
+					<td>
+						<div>
+						{{div.num_contrato}}
+						</div>	
+						<div class="d-flex justify-content-center">
+							<div>	
+								<div *ngIf="div.division_cancelada==0">
+									<span class="m-1 text-danger" (click)="quitarDivision(i)"><i class="fas fa-trash-alt"></i></span>
+								</div>
+
+								<div *ngIf="div.tipo==null && div.nuevo==1">
+									<select name="tipos_division" [(ngModel)]="tipos_division[i]" class="form-control opciones_tipo">
+										<option value="" disabled="">Selecciona una opción</option>
+										<option value="dia">Division por días</option>
+										<option value="ida_vuelta">Division ida y vuelta</option>
+										<option value="falla">Division por cambio de unidad</option>
+									</select>
+								</div>
+								
+								<span class="badge badge-dark" *ngIf="div.tipo=='dia'">División por días</span>
+								<span class="badge badge-dark" *ngIf="div.tipo=='ida_vuelta'">División ida y vuelta</span>
+								<span class="badge badge-dark" *ngIf="div.tipo=='falla'">División por cambio de unidad</span>
+								<div  *ngIf="div.division_cancelada==1">
+									<span class="badge badge-danger">Cancelada</span>
+								</div>								
+							</div>
+							
+						</div>
+					
+					</td>
+					<td  class=" align-content-center justify-content-center">
+						
+						<!-- <div *ngIf="tipos_division[i]!='dia'">{{viajes[dividiendo].fecha_salida}} a {{viajes[dividiendo].fecha_regreso}}</div>
+						 --><div>	
+		    				<my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+		    		     	[(ngModel)]="model[i]" (dateRangeChanged)="onDateRangeChanged($event, i)" [disabled]="div.division_cancelada==1"></my-date-range-picker>
+		    			</div>
+		    		</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select [(ngModel)]="unidad_division[i]" placeholder="Selecciona una unidad" dropdownPosition="bottom"  [disabled]="div.division_cancelada==1" (change)="asignar_unidad_division(i)" [items]="unidades" bindLabel="num_economico" class="unidad">
+							</ng-select>
+						</div>
+					</td>
+					<td >
+						<div class="d-flex align-content-center justify-content-center">
+							<ng-select  [items]="operadores" [disabled]="div.division_cancelada==1" bindLabel="nombre" placeholder="Selecciona un operador" class="operador" [(ngModel)]="operador_division[i]" dropdownPosition="bottom" >
+							</ng-select>
+						</div>
+					</td>
+					<td>
+						<textarea [disabled]="div.division_cancelada==1" placeholder="Ingresa datos de salida" class="form-control" name="" [(ngModel)]="divisiones[i].salida_exacta" id="" cols="17" rows="3"></textarea>
+					</td>
+					<td>
+						<textarea [disabled]="div.division_cancelada==1" placeholder="Ingresa datos de salida" class="form-control" name="" [(ngModel)]="divisiones[i].destino_exacto" id="" cols="17" rows="3"></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<button class="btn btn-sm btn-dark" (click)="extra_division()">Agregar División</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+  	<span class="text-danger" *ngIf="faltan_datos">Faltan datos por capturar ({{datos_faltantes}}) *</span>
+    <button type="button" class="btn btn-sm btn-warning" (click)="validaDivisiones2()" >Actualizar</button>
+    <button type="button" class="btn btn-sm btn-danger" (click)="modal.close('Close click')">Cerrar</button>
+  </div>
+</ng-template>

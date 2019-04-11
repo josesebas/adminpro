@@ -10,6 +10,8 @@ const pagesRoutes: Routes=[
 		path: '', 
 		component: PagesComponent,
 		children:[
+		
+			{ path: 'dashboard/:tab', component: DashboardComponent },
 			{ path: 'dashboard', component: DashboardComponent },
 			{ path: 'progress', component: ProgressComponent },
 			{ path: 'graficas1', component: Graficas1Component },

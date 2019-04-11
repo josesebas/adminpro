@@ -2,7 +2,7 @@
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
     <section id="wrapper" class="login-register login-sidebar" style="background-image:url(https://www.gdlvan.com.mx/ventas-nuevo/assets/images/background/bg-login.jpg);">
-    	<div class="sombra">	
+    	<div class="sombra">
     	</div>
     	<h2 class="titulo-panel">PANEL DE LOGÍSTICA</h2>
         <div class="login-box card">
@@ -12,12 +12,12 @@
                     <div></div>
                     <div class="form-group m-t-40">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Username">
+                            <input class="form-control" type="text" required="" autocomplete="off" placeholder="Username" name="usuario" [(ngModel)]="usuario" id="user">
                         </div>
                    	</div>
                    	<div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" placeholder="Password">
+                            <input class="form-control" type="password" required="" placeholder="Password" name="contrasena" [(ngModel)]="contrasena" id="pass">
                         </div>
                     </div>
                    <!--  <div class="form-group row">
@@ -30,9 +30,9 @@
                    </div> -->
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
-                            <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="submit">Ingresar</button>
+                            <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" (click)="logear()">Ingresar</button>
                         </div>
-                    </div>                    
+                    </div>
                 </form>
             </div>
         </div>

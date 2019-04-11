@@ -1,1 +1,15 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
 /* You can add global styles to this file, and also import other style files */
+.position-absolute {
+    position: absolute;
+}
+.modal-content{
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+@keyframes example {
+  0%   {transform: scale(0.5)}
+  75%  {transform: scale(1.1)}
+  100% {transform: scale(1)}
+}

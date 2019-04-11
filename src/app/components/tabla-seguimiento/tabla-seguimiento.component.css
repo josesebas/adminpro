@@ -1,0 +1,121 @@
+/* .table thead{
+	border-top-color: transparent!important;
+	border-left-color: grey!important;
+    border-right-color: grey!important;
+	
+} */
+.table {
+    margin-bottom: 0px;
+}
+.table-striped tbody tr:hover{
+    background-color: rgba(251,233,139,.5);
+}
+.table-striped td{
+    padding: 0.25rem;
+ }
+tr.cancelado {
+	background-color: rgba(0,0,0,.1);
+}
+.table th.num_contrato{
+	padding-left: 42px;
+    padding-right: 42px; 
+}
+.table th.tipo_viaje{
+	padding-left: 35px;
+    padding-right: 35px; 
+}
+.table th.cliente{
+	padding-left: 30px;
+    padding-right: 30px; 
+}
+tbody tr td{
+	vertical-align: middle;
+}
+thead tr th{
+	vertical-align: middle;
+	text-align: center;
+	font-size: 13px;
+}
+tbody{
+	font-size: 11px;
+	color:#000;
+	font-weight: initial;
+}
+.form-control{
+	width: auto;
+	font-size: 12px;
+}
+.ng-input{
+	width: auto;
+}
+.btn{
+	margin: 5px;
+}
+select.swal2-select {
+    border-radius: 6px;
+}
+.unidad{
+	width: 100px;
+}
+
+.operador{
+	width: 130px;
+}
+.fechas{
+	width: 170px;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+.datos_salida{
+	width: 150px;	
+}
+.opciones_tipo{
+	width: 120px;
+}
+.texto-dividido-principal{
+	color:#67DBAC;
+	font-weight: bold;
+}
+.texto-dividido{
+	color:#67DBAC;
+}
+.select_tipo_div{
+	width: 500px;
+}
+.options{
+	width: 130px;
+	justify-content: center;
+	align-content: center;
+	text-align: center;
+}
+.options2{
+	width: 100px;
+	justify-content: center;
+	align-content: center;
+	text-align: center;	
+}
+.modal-lg {
+	    width:  930px!important;
+	}
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+  position: relative;
+  left: 0px;
+  opacity: initial; 
+}
+@media (min-width: 930px){
+	.modal-lg {
+	    max-width:  1000px!important;
+	}
+}
+
+@media (min-width: 576px){
+	.modal-dialog {
+	    max-width: 500px;
+	    margin: 30px auto;
+	}
+}
+.borde-rojo{
+	border: solid red 1px;
+}

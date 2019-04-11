@@ -1,3 +1,52 @@
-<p>
-  dashboard works!
-</p>
+
+<div class="contenido_gral" id="top">
+	<div class="row" >
+		<div class="col-md-2">
+			<h4>Seguimiento</h4>
+		</div>
+		<div class="col-md-10 text-right">
+			<app-filtros (tipoFiltro)="showFiltro($event)"></app-filtros>
+		</div>
+	</div>
+	<ul class="nav nav-tabs">
+	  <li class="nav-item" [routerLink]="['/dashboard/x_asignar']" >
+	    <a class="nav-link" [ngClass]="{'active':tab=='x_asignar'}">Viajes por Asignar</a>
+	    <span  class="position-absolute por-asignar">#</span>
+	  </li>
+	  <li class="nav-item" [routerLink]="['/dashboard/proximos']" >
+	    <a class="nav-link" [ngClass]="{'active':tab=='proximos'}">Viajes Proximos</a>
+	  </li>
+	  <li class="nav-item" [routerLink]="['/dashboard/en_curso']" >
+	    <a class="nav-link" [ngClass]="{'active':tab=='en_curso'}">Viajes en Curso</a>
+	  </li>
+	  <li class="nav-item" [routerLink]="['/dashboard/cerrados']" >
+	    <a class="nav-link" [ngClass]="{'active':tab=='cerrados'}">Viajes Cerrados</a>
+	  </li>
+	  <li class="nav-item" [routerLink]="['/dashboard/completados']" >
+	    <a class="nav-link" [ngClass]="{'active':tab=='completados'}">Viajes Completados</a>
+	  </li>
+	</ul>
+	<div class="table-responsive">
+		
+		<app-tabla-seguimiento [tipoFiltro]="tipo_filtro" [filtro]="filtro" [tab]="tab" [cantidad]="cantidad" [pagina]="pagina" (total)="lanzarTotales($event)" ></app-tabla-seguimiento>
+	</div>
+	<div>
+		<app-paginador (registros_pagina)="showPagina($event)" [total_registros]="total_registros" [cantidad_registros]="cantidad_registros"></app-paginador>
+	</div>
+</div>
+
+<!-- <h3>Mensajes</h3>
+<form (ngSubmit)="enviar()">
+	<input type="text" class="form-control"
+	[(ngModel)]="texto"
+	name="texto"
+	placeholder="mensaje..."
+	autofocus=""
+	autocomplete="off"
+	>
+</form>
+<div id="chat-mensajes" style="height: 200px; border: 1px solid #000; border-radius: 5px; margin-top: 5px; overflow-y: scroll;" >
+	<li class="list-group-item" *ngFor="let msg of mensajes" style="margin: 5px;">
+		{{msg.de}}: {{msg.cuerpo}}
+	</li>
+</div> -->

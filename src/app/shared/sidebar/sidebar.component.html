@@ -1,45 +1,45 @@
  <!-- Left Sidebar - style you can find in sidebar.scss  -->
         <!-- ============================================================== -->
-        <aside class="left-sidebar">
+        <aside class="left-sidebar mini-sidebar" style="background-color: #1D1C1A" >
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="user-profile">
-                            <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><img src="assets/images/users/profile.png" alt="user" /><span class="hide-menu">Steave Jobs </span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="javascript:void()">My Profile </a></li>
-                                <li><a href="javascript:void()">My Balance</a></li>
-                                <li><a href="javascript:void()">Inbox</a></li>
-                                <li><a href="javascript:void()">Account Setting</a></li>
-                                <li><a href="javascript:void()">Logout</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-devider"></li>
-                        <li class="nav-small-cap">PERSONAL</li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="index.html">Minimal </a></li>
-                                <li><a href="index2.html">Analytical</a></li>
-                                <li><a href="index3.html">Demographical</a></li>
-                                <li><a href="index4.html">Modern</a></li>
-                            </ul>
-                        </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-bullseye"></i><span class="hide-menu">Apps</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li><a href="app-calendar.html">Calendar</a></li>
-                                <li><a href="app-chat.html">Chat app</a></li>
-                                <li><a href="app-ticket.html">Support Ticket</a></li>
-                                <li><a href="app-contact.html">Contact / Employee</a></li>
-                                <li><a href="app-contact2.html">Contact Grid</a></li>
-                                <li><a href="app-contact-detail.html">Contact Detail</a></li>
-                            </ul>
-                        </li>
-                        
-                    </ul>
+                <nav class="sidebar-nav"> 
+                        <ul id="sidebarnav">
+                            <li (click)="expandir(1)"><a class="has-arrow waves-effect waves-dark" aria-expanded="false" style="background-color: #1D1C1A"><i class="mdi mdi-calendar"></i></a><span class="hide-menu text-gdl" >Calendario <span class="label label-rouded label-themecolor pull-right">4</span></span></li>
+                            <!-- <li (click)="expandir(1)" > <a  class="has-arrow waves-effect waves-dark " aria-expanded="false" style="background-color: #1D1C1A"><i class="mdi mdi-gauge "></i><span class="hide-menu text-gdl" >Gastos <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
+                            </li>
+                            <li (click)="expandir(2)" > <a class="has-arrow waves-effect waves-dark" aria-expanded="false" style="background-color: #1D1C1A"><i class="mdi mdi-bullseye "></i><span class="hide-menu text-gdl">Viajes por asignar</span></a>
+                            </li>
+                            <li (click)="expandir(3)"  > <a class="has-arrow waves-effect waves-dark"  aria-expanded="false" style="background-color: #1D1C1A"><i class="mdi mdi-clock-alert "></i><span class="hide-menu text-gdl">Viajes por empezar</span></a>
+                            </li>
+                            <li (click)="expandir(4)"  > <a class="has-arrow waves-effect waves-dark"  aria-expanded="false" style="background-color: #1D1C1A"><i class="mdi mdi-clock-start "></i><span class="hide-menu text-gdl">Viajes comienzan hoy</span></a>
+                            </li> -->
+                        </ul>
                 </nav>
+                
                 <!-- End Sidebar navigation -->
+            </div>
+
+            <div *ngIf="seleccionado" class="scroll-sidebar contenedor animated slideInLeft" style="display: block; margin-left: 70px; width: 400px; background-color: #1D1C1A; min-height: 100%; overflow: scroll;">
+                <div class="container">
+                    <div *ngIf="seleccionado==1">                    
+                      <h4>Gastos</h4>
+                      <input type="text">
+                    </div>
+                    <div *ngIf="seleccionado==2">                    
+                      <h4>Viajes por asignar</h4>
+                      <input type="text">
+                    </div>
+                    <div *ngIf="seleccionado==3">
+                        <h4>Viajes por empezar</h4>
+                        <input type="text">
+                    </div>
+                    <div *ngIf="seleccionado==4">
+                        <h4>viajes comienzan hoy</h4>
+                        <input type="text">
+                    </div>
+                </div>
             </div>
             <!-- End Sidebar scroll-->
         </aside>

@@ -1,0 +1,26 @@
+<div class="row">
+	<div class="col-md-3 text-left">
+		Mostrando {{inicio}} a {{fin}} de {{total_registros}}
+	</div>
+	<div class="col-md-6 text-center">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				<li class="page-item" (click)="cambiarPagina(1)"><i class="page-link fas fa-angle-double-left"></i></li>
+				<li class="page-item" (click)="cambiarPagina(pagina_actual-1)"><i class="page-link fas fa-angle-left"></i></li>
+				<li class="page-item" (click)="cambiarPagina(item.id)" [ngClass]="{'active':item.id == pagina_actual }" *ngFor="let item of items"><i class="page-link" >{{item.id}}</i></li>
+				<li class="page-item" (click)="cambiarPagina(pagina_actual+1)"><i class="page-link fas fa-angle-right"></i></li>
+				<li class="page-item" (click)="cambiarPagina(paginas)"><i class="page-link fas fa-angle-double-right"></i></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="col-md-3 text-right">
+		<span class="">Registros por mostrar</span>
+		<br>
+		<select name="cantidad_pagina" id="" class="form-control" [(ngModel)]="cantidad_pagina" (change)="lanzarCantidadPagina()">
+			<option value="50">50</option>
+			<option value="100">100</option>
+			<option value="500">500</option>
+			<option value="1000">1,000</option>
+		</select>
+	</div>
+</div>

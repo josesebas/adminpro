@@ -1,0 +1,57 @@
+<div class="row text-right">
+	<div class="col-md-12">
+		<span>Filtrar por: </span> 	
+		<select name="filtro" class="form-control" id="filtroTipo" (change)="cargarFiltros()" [(ngModel)]="filtro" >
+			<option value="" disabled="">Seleccionar Filtro</option>
+			<option value="operador">Operador</option>
+			<option value="unidad">Unidad</option>
+			<option value="cliente">Cliente</option>
+			<option value="sucursal">Sucursal</option>
+			<option value="fecha">Fecha</option>	
+		</select>
+		<select name="operador" id="" *ngIf="filtro=='operador'" class="form-control" [(ngModel)]="operador">
+			<option value="" disabled="">Seleccionar Operador</option>
+			<option value="{{item.id}}" *ngFor="let item of operadores">{{item.nombre}}</option>
+		</select>
+		<select name="unidad" id="" *ngIf="filtro=='unidad'" class="form-control" [(ngModel)]="unidad">
+			<option value="" disabled="">Seleccionar Unidad</option>
+			<option value="{{item.id}}" *ngFor="let item of unidades">{{item.num_economico}}</option>
+		</select>
+		<input type="text" name="cliente" [(ngModel)]="cliente" class="form-control" *ngIf="filtro=='cliente'" placeholder="Nombre Cliente">
+		<select name="sucursal" id="" *ngIf="filtro=='sucursal'" class="form-control" [(ngModel)]="sucursal">
+			<option value="" disabled="">Seleccionar Sucursal</option>
+			<option value="{{item.id}}" *ngFor="let item of sucursales">{{item.nombre}}</option>
+		</select>
+		<div class="input-group" *ngIf="filtro=='fecha'" style="margin-right: 30px; margin-left: 10px;">
+			<input  class="form-control date"  style="float: none" placeholder="Seleccionar una fecha" ngx-mydatepicker name="mydate"
+		           [(ngModel)]="model" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event,1)" readonly="" />
+
+		    <span class="input-group-btn">
+		        <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+		            <i class="icon-trash"></i>
+		        </button>
+		        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+		            <i class="icon-calender"></i>
+		        </button>
+		    </span>	
+		</div>
+		<div class="input-group" *ngIf="filtro=='fecha'" style="  margin-right: 30px; margin-left: 10px;">
+			<input  class="form-control date" style="float: none"  placeholder="Seleccionar una fecha" ngx-mydatepicker name="mydate"
+		           [(ngModel)]="model2" [options]="myOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event,2)" readonly="" />
+
+		    <span class="input-group-btn">
+		        <button type="button" class="btn btn-default" (click)="dp.clearDate()">
+		            <i class="icon-trash"></i>
+		        </button>
+		        <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()">
+		            <i class="icon-calender"></i>
+		        </button>
+		    </span>	
+		</div>
+		<button class="btn btn-info m-l-10" (click)="filtrar($event)"><i class="icon-magnifier"></i></button>
+		<button class="btn btn-danger m-l-10" (click)="desfiltrar()"><i class="icon-trash"></i></button>
+	</div>
+</div>
+
+
+    

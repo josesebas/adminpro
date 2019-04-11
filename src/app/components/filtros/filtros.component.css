@@ -1,0 +1,22 @@
+.form-control{
+	width: auto;
+}
+.input-group-btn {
+    height: 100%;
+    background: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+.input-group{
+	width: 250px;
+	position: relative;
+	display: inline-flex;
+}
+.date{
+	width: 200px;
+}
+.btn-default{
+	background-color: #fff;
+    border-left:  1px solid #555;
+    border-right: 1px solid #555;
+}

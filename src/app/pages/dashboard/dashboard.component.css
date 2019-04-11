@@ -1,0 +1,39 @@
+.nav-link:hover{
+	cursor: pointer;
+}
+.active{
+    border-top: solid 1px #dddddd!important;
+    border-left: solid 1px #dddddd!important;
+    border-right: solid 1px #dddddd!important;
+}
+
+.nav-item{
+	/* border-bottom: solid 1px #343A40; */
+}
+.nav-link{
+	border: none;
+}
+.contenido_gral{
+	background-color: #fff;
+	padding: 25px;
+}
+div.table-responsive{
+    border-bottom: solid 1px #b6bcc28f;
+    border-left: solid 1px #b6bcc28f;
+    border-right: solid 1px #b6bcc28f;
+}
+.por-asignar {
+    color: #fff;
+    font-size: 12px;
+    width: 21px;
+    height: 21px;
+    line-height: 21px;
+    text-align: center;
+    background: #cc292b;
+    border-radius: 100%;
+    right: -5px;
+    top: -10px;
+}
+.nav-item{
+	position: relative;
+}

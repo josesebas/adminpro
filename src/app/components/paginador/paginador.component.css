@@ -1,0 +1,20 @@
+.form-control{
+	width: auto;
+}
+.row{
+	margin-top: 10px;
+}
+.page-link{
+	width: 40px;
+	height:35px;
+	color:grey; 
+	cursor: pointer;
+}
+.page-item.active .page-link {
+	background-color: #343A40;
+	border-color: #343A40;
+}
+.active{
+	background-color:#1D1C1A;
+	color: #FFD110;
+}
